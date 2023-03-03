@@ -1,5 +1,7 @@
 package com.integration.server.dto;
 
+import com.integration.core.util.JsonUtil;
+
 import javax.persistence.Column;
 import java.io.Serializable;
 
@@ -654,5 +656,10 @@ public class KindDTO implements Serializable {
 
     public void setNoSupportMultipleMainInsurance(String noSupportMultipleMainInsurance) {
         this.noSupportMultipleMainInsurance = noSupportMultipleMainInsurance;
+    }
+
+    @Override
+    public String toString() {
+        return JsonUtil.toJson(this);
     }
 }

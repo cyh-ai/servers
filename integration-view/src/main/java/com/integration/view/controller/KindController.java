@@ -6,10 +6,9 @@ import com.integration.core.util.CollectionUtils;
 import com.integration.server.dto.InsElementDTO;
 import com.integration.server.dto.KindListResponseDTO;
 import com.integration.server.service.AdminService;
-import com.integration.server.service.KindService;
-import com.integration.view.controller.vo.InsElement;
-import com.integration.view.controller.vo.KindListRequest;
-import com.integration.view.controller.vo.KindListResponse;
+import com.integration.view.vo.InsElement;
+import com.integration.view.vo.KindListRequest;
+import com.integration.view.vo.KindListResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

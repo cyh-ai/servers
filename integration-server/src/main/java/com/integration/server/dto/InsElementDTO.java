@@ -1,5 +1,7 @@
 package com.integration.server.dto;
 
+import com.integration.core.util.JsonUtil;
+
 public class InsElementDTO {
 
 
@@ -40,5 +42,10 @@ public class InsElementDTO {
 
     public void setInsuranceIsOptional(String insuranceIsOptional) {
         this.insuranceIsOptional = insuranceIsOptional;
+    }
+
+    @Override
+    public String toString() {
+        return JsonUtil.toJson(this);
     }
 }

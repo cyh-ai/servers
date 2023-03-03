@@ -1,4 +1,4 @@
-package com.integration.view.controller.vo;
+package com.integration.view.vo;
 
 public class KindListRequest {
 
