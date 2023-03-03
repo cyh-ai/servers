@@ -1,7 +1,7 @@
-package com.integration.view.eneity;
+package com.integration.server.eneity;
 
 
-import com.integration.view.BaseEntitys.BaseEntity;
+import com.integration.server.BaseEntitys.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

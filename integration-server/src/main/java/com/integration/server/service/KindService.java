@@ -1,8 +1,8 @@
-package com.integration.view.service;
+package com.integration.server.service;
 
 
-import com.integration.view.controller.dto.KindDTO;
-import com.integration.view.controller.dto.KindListResponseDTO;
+import com.integration.server.dto.KindDTO;
+import com.integration.server.dto.KindListResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

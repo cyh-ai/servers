@@ -2,12 +2,15 @@ package com.integration.view.controller;
 
 
 import com.integration.core.util.CollectionUtils;
-import com.integration.view.controller.dto.InsElementDTO;
-import com.integration.view.controller.dto.KindListResponseDTO;
+
+import com.integration.server.dto.InsElementDTO;
+import com.integration.server.dto.KindListResponseDTO;
+import com.integration.server.service.AdminService;
+import com.integration.server.service.KindService;
 import com.integration.view.controller.vo.InsElement;
 import com.integration.view.controller.vo.KindListRequest;
 import com.integration.view.controller.vo.KindListResponse;
-import com.integration.view.service.KindService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +30,12 @@ import java.util.stream.Collectors;
 public class KindController {
 
     @Autowired
-    KindService kindService;
+    AdminService adminService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/findKindInfo")
     public KindListResponse findKindInfo(@Validated KindListRequest kindListRequest) {
         KindListResponse kindListResponse = new KindListResponse();
-        KindListResponseDTO info = kindService.findKindInfo(kindListRequest.getCyh(), kindListRequest.getPageIndex(), kindListRequest.getPageSize());
+        KindListResponseDTO info = adminService.findKindInfo(kindListRequest.getCyh(), kindListRequest.getPageIndex(), kindListRequest.getPageSize());
         List<InsElementDTO> kindList = info.getInsuranceDTOList();
         List<InsElement> insElements;
         if (CollectionUtils.isNotEmpty(kindList)) {

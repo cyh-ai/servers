@@ -1,15 +1,15 @@
-package com.integration.view.service.impl;
+package com.integration.server.service.impl;
 
 
 import com.google.common.collect.Lists;
 import com.integration.core.util.CollectionUtils;
 
 
-import com.integration.view.controller.dto.InsElementDTO;
-import com.integration.view.controller.dto.KindDTO;
-import com.integration.view.controller.dto.KindListResponseDTO;
-import com.integration.view.repoService.KindRepoService;
-import com.integration.view.service.KindService;
+import com.integration.server.dto.InsElementDTO;
+import com.integration.server.dto.KindDTO;
+import com.integration.server.dto.KindListResponseDTO;
+import com.integration.server.repoService.KindRepoService;
+import com.integration.server.service.KindService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.integration.view.controller.dto;
+package com.integration.server.dto;
 
 import javax.persistence.Column;
 import java.io.Serializable;

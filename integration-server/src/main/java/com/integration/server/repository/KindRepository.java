@@ -1,8 +1,8 @@
-package com.integration.view.repository;
+package com.integration.server.repository;
 
 
 import com.integration.core.Repository.BaseRepository;
-import com.integration.view.eneity.Kind;
+import com.integration.server.eneity.Kind;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

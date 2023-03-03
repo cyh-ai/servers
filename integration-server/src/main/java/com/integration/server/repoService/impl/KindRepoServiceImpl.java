@@ -1,11 +1,11 @@
-package com.integration.view.repoService.impl;
+package com.integration.server.repoService.impl;
 
 import com.integration.core.util.CopyUtil;
 
-import com.integration.view.controller.dto.KindDTO;
-import com.integration.view.eneity.Kind;
-import com.integration.view.repoService.KindRepoService;
-import com.integration.view.repository.KindRepository;
+import com.integration.server.dto.KindDTO;
+import com.integration.server.eneity.Kind;
+import com.integration.server.repoService.KindRepoService;
+import com.integration.server.repository.KindRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,7 @@
-package com.integration.view.repoService;
+package com.integration.server.repoService;
 
 
-import com.integration.view.controller.dto.KindDTO;
+import com.integration.server.dto.KindDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

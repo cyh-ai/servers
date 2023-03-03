@@ -1,4 +1,4 @@
-package com.integration.view.BaseEntitys;
+package com.integration.server.BaseEntitys;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
