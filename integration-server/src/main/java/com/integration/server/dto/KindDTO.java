@@ -1,6 +1,7 @@
 package com.integration.server.dto;
 
 import com.integration.core.util.JsonUtil;
+import io.swagger.annotations.ApiModel;
 
 import javax.persistence.Column;
 import java.io.Serializable;

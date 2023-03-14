@@ -1,0 +1,29 @@
+springboot整合swagger
+1.添加架包：(模式1和2可以选择)
+         <dependency>
+             <groupId>io.springfox</groupId>
+             <artifactId>springfox-swagger2</artifactId>
+             <version>2.9.2</version>
+         </dependency>
+         <!--swagger-ui.html模式   模式1     -->
+         <dependency>
+             <groupId>io.springfox</groupId>
+             <artifactId>springfox-swagger-ui</artifactId>
+             <version>2.9.2</version>
+         </dependency>
+         <!--doc.html模式    模式2    -->
+         <dependency>
+             <groupId>com.github.xiaoymin</groupId>
+             <artifactId>swagger-bootstrap-ui</artifactId>
+             <version>1.9.2</version>
+         </dependency>
+
+2.启动类上添加swagger注解：@EnableSwagger2
+3.控制层类名上添加swagger注解：@Api
+4.控制层方法上添加swagger注解：ApiOperation(value = "获取产品列表")和@ApiImplicitParams({@ApiImplicitParam(name = "kindListRequest", value = "KindListRequest", required = true, dataType = "KindListRequest", dataTypeClass = KindListRequest.class)})
+   注解：Api注解：定义接口名称
+        ApiOperation注解：定义方法名称
+        ApiImplicitParam注解：定义param参数的各个属性
+        ApiModel注解：定义对象名称
+        ApiModelProperty注解：定义参数名称
+5.响应类中的DTO参数添加swagger注解：@ApiModel和@ApiModelProperty

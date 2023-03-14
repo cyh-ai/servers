@@ -1,13 +1,19 @@
 package com.integration.server.dto;
 
 import com.integration.core.util.JsonUtil;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+//5.DTO添加swagger注解ApiModel(模块名称)
+@ApiModel(value = "险种DTO")
 public class InsElementDTO {
 
 
     /**
      * 险种名称
      */
+    //6.字段添加swagger注解ApiModelProperty(模块中字段名称)
+    @ApiModelProperty(value = "险种名称")
     private String insuranceName;
 
     /**
