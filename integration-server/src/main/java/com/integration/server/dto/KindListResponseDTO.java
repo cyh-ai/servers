@@ -1,13 +1,18 @@
 package com.integration.server.dto;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
+@ApiModel(description = "险种响应DTO对象")
 public class KindListResponseDTO {
 
+    @ApiModelProperty(value = "页数")
     private String totalNum;
 
+    @ApiModelProperty(value = "险种集合DTO")
     private List<InsElementDTO> insuranceDTOList;
 
     public String getTotalNum() {

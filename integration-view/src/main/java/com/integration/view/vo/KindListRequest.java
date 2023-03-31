@@ -1,10 +1,18 @@
 package com.integration.view.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "险种请求对象")
 public class KindListRequest {
 
+    @ApiModelProperty(value = "险种名称")
     private String cyh;
 
+    @ApiModelProperty(value = "下标")
     private String pageIndex;
+
+    @ApiModelProperty(value = "数量")
     private String pageSize;
 
     public String getCyh() {

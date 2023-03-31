@@ -32,7 +32,6 @@ public class KindServiceImpl implements KindService {
     private KindRepoService kindRepoService;
 
 
-
     @Override
     public KindDTO findByCodeAndState(String code, Boolean state) {
 
@@ -46,31 +45,28 @@ public class KindServiceImpl implements KindService {
 
     @Override
     public Page<KindDTO> findByState(Boolean state, Pageable pageable) {
-        return kindRepoService.findByState(state,pageable);
+        return kindRepoService.findByState(state, pageable);
     }
-
-
-
-
 
 
     @Override
     public KindListResponseDTO findKindInfo(String cyh, String pageIndex, String pageSize) {
+
         KindListResponseDTO userListResponseDTO = new KindListResponseDTO();
         Page<KindDTO> kindList = Page.empty();
         Pageable pageable = PageRequest.of(Integer.parseInt(pageIndex) - 1, Integer.parseInt(pageSize));
         if (StringUtils.isBlank(cyh)) {
             //调用查询全部 pageable
-            kindList = kindRepoService.findByState(true,pageable);
+            kindList = kindRepoService.findByState(true, pageable);
         } else if (StringUtils.isNumeric(cyh)) {
             //查询指定条件
-            KindDTO kindDTO = kindRepoService.findByCodeAndState(cyh,true);
+            KindDTO kindDTO = kindRepoService.findByCodeAndState(cyh, true);
             if (kindDTO != null) {
                 kindList = new PageImpl<>(Lists.newArrayList(kindDTO));
             }
         } else {
             //根据名称模糊搜索 pageable
-            kindList = kindRepoService.findByNameLikeAndState("%"+cyh+"%",true,pageable);
+            kindList = kindRepoService.findByNameLikeAndState("%" + cyh + "%", true, pageable);
         }
         if (CollectionUtils.isNotEmpty(kindList)) {
             String totalNum = String.valueOf(kindList.getTotalElements());

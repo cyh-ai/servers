@@ -19,11 +19,13 @@ public class InsElementDTO {
     /**
      * 险种代码
      */
+    @ApiModelProperty(value = "险种代码")
     private String insuranceCode;
 
     /**
      * 险种是否可选
      */
+    @ApiModelProperty(value = "险种是否可选")
     private String insuranceIsOptional;
 
     public String getInsuranceName() {

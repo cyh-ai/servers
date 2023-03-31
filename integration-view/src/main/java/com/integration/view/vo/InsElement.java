@@ -1,20 +1,27 @@
 package com.integration.view.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "险种对象")
 public class InsElement {
 
     /**
      * 险种名称
      */
+    @ApiModelProperty(value = "险种名称")
     private String insuranceName;
 
     /**
      * 险种代码
      */
+    @ApiModelProperty(value = "险种代码")
     private String insuranceCode;
 
     /**
      * 险种是否可选
      */
+    @ApiModelProperty(value = "险种是否可选")
     private String insuranceIsOptional;
 
     public String getInsuranceName() {
