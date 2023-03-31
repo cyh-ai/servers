@@ -1,3 +1,4 @@
+# 更换sit环境使用-Dspring.profiles.active=sit
 spring:
   jpa:
     properties:
@@ -10,4 +11,12 @@ spring:
     username: root
     password: admin
 server:
-  port: 8081
+  port: 8082
+
+swagger:
+  show: true
+
+
+
+
+
