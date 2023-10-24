@@ -6,7 +6,7 @@ package com.integration.demo.syn;
  * @author cyh
  * @date 2023.03.15
  */
-public class StartAndCalc {
+public class StaticAndClass {
 
     private static class SynClass extends Thread {
         @Override
@@ -45,7 +45,7 @@ public class StartAndCalc {
 
     public static void main(String[] args) {
         //和对象锁同理，如果两个线程调用同一个实例对象，一定是其中一个线程先执行完，另一个才会执行完，因为使用的对象锁，如果两个线程锁不同的对象实例，是可以并行的
-        StartAndCalc startAndCalc = new StartAndCalc();
+        StaticAndClass startAndCalc = new StaticAndClass();
         SynClass t1 = new SynClass();
         SynStatic t2 = new SynStatic();
 //        SynClass t2 = new SynClass();

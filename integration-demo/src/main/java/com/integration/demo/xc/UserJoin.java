@@ -32,8 +32,8 @@ public class UserJoin {
                 } catch (InterruptedException o) {
                     o.printStackTrace();
                 }
-                System.out.println(Thread.currentThread().getName() + "Goddess打饭完成，");
             }
+            System.out.println(Thread.currentThread().getName() + "Goddess打饭完成，");
 
         }
     }

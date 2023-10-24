@@ -22,9 +22,9 @@ public class EndThread {
             //isInterrupted()方法 线程的标识状态，true或false
             System.out.println("当前线程名称：" + name + ",循环前的标识状态：" + isInterrupted());
             //isInterrupted()方法，属于实例方法，调用该方法的对应所标识状态会被，不会重置当前线程的中断状态，即标识状态被修改过后，一直为true
-            //while (!isInterrupted()){
+            while (!isInterrupted()){
             //interrupted()方法，属于线程的静态方法，底层会重置点给钱线程的中断状态，即标识状态被修改为true后，会重置为false
-            while (!Thread.interrupted()) {
+            //while (!Thread.interrupted()) {
                 System.out.println("线程名称：" + name);
                 System.out.println("循环中的标识状态：" + isInterrupted());
             }

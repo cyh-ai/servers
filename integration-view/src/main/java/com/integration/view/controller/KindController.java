@@ -42,7 +42,6 @@ public class KindController {
     @Autowired
     AdminService adminService;
 
-    //4.swagger在方法上加ApiOperation注解(方法名)，
     @ApiOperation(value = "获取产品列表")
     @RequestMapping(method = RequestMethod.POST, value = "/findKindInfo")
     @ApiImplicitParams({@ApiImplicitParam(name = "kindListRequest", value = "KindListRequest",
