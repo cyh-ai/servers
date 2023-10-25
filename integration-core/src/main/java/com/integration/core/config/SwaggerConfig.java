@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 
 /**
- * 2.创建swaggerconfig类
+ * 2.创建swaggerConfig类
  * swagger配置类
  *
  * @author 23921
@@ -32,10 +32,17 @@ public class SwaggerConfig {
     @Value("${swagger.show}")
     private Boolean isShow;
 
-    //作者信息
+    /**
+     * 作者信息
+     */
     public static final Contact DEFAULT_CONTACT = new Contact("程亚辉", "http://localhost:8081/swagger-ui.html#/", "@163.com");
 
-    //配置swagger的bean实例
+    /**
+     * 配置swagger的bean实例
+     *
+     * @param environment 对象
+     * @return 数据
+     */
     @Bean
     public Docket docket(Environment environment) {
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
@@ -45,19 +52,20 @@ public class SwaggerConfig {
             //配置swagger信息
             docket.apiInfo(apiInfo());
             //工厂模式
-            docket.enable(true)//启用swagger,根据flag
-                  .select()
+            //启用swagger,根据flag
+            docket.enable(true)
+                    .select()
                     //配置要扫描接口的方式
                     //basePackage 指定要扫描的包
                     //withClassAnnotation 扫描类上的注解
                     //.apis(RequestHandlerSelectors.withClassAnnotation(GetMapping.class)).build();
                     //.paths()  过滤
-                  .apis(RequestHandlerSelectors.basePackage("com.integration"))
-                  .build();
+                    .apis(RequestHandlerSelectors.basePackage("com.integration"))
+                    .build();
             //any扫描全部   none 都不扫描
             //.apis(RequestHandlerSelectors.any()).build();
             return docket;
-        }else {
+        } else {
             docket.enable(false);
         }
         return docket;

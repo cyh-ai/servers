@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
@@ -30,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author cyh
+ * redis工具类
  */
 @Component
 public class RedisService {
@@ -40,13 +40,24 @@ public class RedisService {
 
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * 构造方法
+     *
+     * @param redisTemplate 变量
+     */
     public RedisService(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
 
+    /**
+     * 根据key获取redis缓存中的数据
+     *
+     * @param key 唯一值
+     * @return 对应的数据
+     */
     public Object get(String key) {
         try {
             return redisTemplate.opsForValue().get(key);
@@ -62,20 +73,20 @@ public class RedisService {
      * @param business    业务大类
      * @param subBusiness 业务键
      * @param code        业务编码
-     * @return String
+     * @return 组装好的key
      */
     public String generateKey(String business, String subBusiness, String code) {
         return business + SPLIT_COLON + subBusiness + SPLIT_COLON + code;
     }
 
     /**
-     * 存入redis
+     * 存入redis（有相关时效时间和时间单位）
      *
-     * @param key
-     * @param value
-     * @param timeout  失效时间
+     * @param key      唯一值
+     * @param value    要存的数据
+     * @param timeout  时效时间
      * @param timeUnit 时效时间单位
-     * @return
+     * @return 是否存成功
      */
     public boolean set(String key, Object value, Long timeout, TimeUnit timeUnit) {
         try {
@@ -87,6 +98,13 @@ public class RedisService {
         }
     }
 
+    /**
+     * 存入redis
+     *
+     * @param key   唯一值
+     * @param value 要存的数据
+     * @return 是否存成功
+     */
     public boolean set(String key, Object value) {
         try {
             redisTemplate.opsForValue().set(key, value);
@@ -98,14 +116,14 @@ public class RedisService {
     }
 
 
-
     /**
      * 删除某个key
      *
-     * @param key
+     * @param key 要删除的key
      */
     public void delete(String key) {
-        if (this.hasKey(key)){
+        //判断这个key是否存在
+        if (this.hasKey(key)) {
             redisTemplate.delete(key);
         }
     }
@@ -113,18 +131,19 @@ public class RedisService {
     /**
      * 判断redis中某个key是否存在
      *
-     * @param key
-     * @return
+     * @param key 谓唯一值
+     * @return 是否存在
      */
     public boolean hasKey(String key) {
         return redisTemplate.hasKey(key);
     }
 
     /**
-     * 多个标识key组装方法
-     * @param keyE
-     * @param params
-     * @return
+     * 拼接key，有redis枚举业务大类，小类，多个指定的标识组成  business:subBusiness:(String... params)
+     *
+     * @param keyE   redis枚举类
+     * @param params 多个指定的标识
+     * @return 拼接好的key
      */
     public String generateKey(RedisKeyEnum keyE, String... params) {
         StringBuilder sb = new StringBuilder();
@@ -139,17 +158,30 @@ public class RedisService {
 
 
     /**
-     * 层级多的缓存方法（多个标记组成的key）
-     * @param keyE
-     * @param value
-     * @param params
-     * @return
+     * key为层级多的缓存方法（多个标记组成的key） business:subBusiness:(String... params)
+     * 存redis 调用this.set方法，先拼接key，有redis枚举业务大类，小类，多个指定标识组成，然后存储，不包含时效时间和时间单位
+     *
+     * @param keyE   redis枚举类
+     * @param value  要存的数据
+     * @param params 多个指定的标识
+     * @return 是否成功
      */
     public boolean set(RedisKeyEnum keyE, Object value, String... params) {
         return this.set(keyE, value, null, null, params);
     }
 
-    public boolean set(RedisKeyEnum keyE, Object value, TimeUnit timeUnit, Long timeout, String... params) {
+    /**
+     * key为层级多的缓存方法（多个标记组成的key） business:subBusiness:(String... params)
+     * 存redis 先拼接key，有redis枚举业务大类，小类，多个指定标识组成，然后存储，可设置时效时间和时间单位
+     *
+     * @param keyE     redis枚举类
+     * @param value    要存的数据
+     * @param timeout  时效时间
+     * @param timeUnit 时效时间单位
+     * @param params   多个指定的标识
+     * @return 是否成功
+     */
+    public boolean set(RedisKeyEnum keyE, Object value, Long timeout, TimeUnit timeUnit, String... params) {
         try {
             String key = this.generateKey(keyE, params);
             redisTemplate.opsForValue().set(key, value);
@@ -167,10 +199,12 @@ public class RedisService {
 
 
     /**
-     * 层级多的获取缓存（多个标记组成的key）
-     * @param keyE
-     * @param params
-     * @return
+     * key为层级多的获取方法（多个标记组成的key） business:subBusiness:(String... params)
+     * 根据组装好的key获取redis缓存中的数据
+     *
+     * @param keyE   redis枚举类
+     * @param params 多个指定的标识
+     * @return 对应的数据
      */
     public Object get(RedisKeyEnum keyE, String... params) {
         String key = this.generateKey(keyE, params);
@@ -186,13 +220,14 @@ public class RedisService {
     /**
      * redis锁，可用于判断接口是否重复调用
      *
-     * @param lock
-     * @param seconds
-     * @return
+     * @param lock    指定标识，key的一部分
+     * @param seconds 生成key时的时效时间计算使用
+     * @return 返回一个redis分布式锁对象
      */
     public RedisLock tryLock(String lock, Long seconds) {
         String key = "lock:" + lock;
         long now = System.currentTimeMillis();
+        //重新设置key对应的值，如果存在返回false，否则返回true
         Boolean getRs = redisTemplate.opsForValue().setIfAbsent(key, now, Duration.ofSeconds(seconds));
         return new RedisLock() {
             // 锁获取结果
@@ -221,12 +256,12 @@ public class RedisService {
     }
 
 
-
     /**
      * 删除hashmap相应值
+     * 删除key对应的map集合中指定的一个或多个键值对数据
      *
-     * @param key
-     * @param hashKeys
+     * @param key      唯一值
+     * @param hashKeys redis中缓存的map数据中一个或多个键的值
      */
     public void delete(String key, String... hashKeys) {
         redisTemplate.opsForHash().delete(key, hashKeys);
@@ -234,42 +269,67 @@ public class RedisService {
 
     /**
      * 获取hashmap所有entry
+     * 根据key获取redis缓存中的数据
      *
-     * @param key
-     * @return
+     * @param key 唯一值
+     * @return 对应的数据
      */
     public Map<Object, Object> entries(String key) {
         return redisTemplate.opsForHash().entries(key);
     }
 
+    /**
+     * key为层级多的获取方法（多个标记组成的key） business:subBusiness:(String... params)
+     * 删除某个key
+     *
+     * @param keyE   redis枚举类
+     * @param params 多个指定的标识
+     */
     public void delete(RedisKeyEnum keyE, String... params) {
         String key = this.generateKey(keyE, params);
         redisTemplate.delete(key);
     }
 
 
-
-
-
+    /**
+     * 获取hashmap所有entry
+     * key为层级多的获取方法（多个标记组成的key） business:subBusiness:(String... params)
+     * 根据key获取redis缓存中的数据
+     *
+     * @param keyE   redis枚举类
+     * @param params 多个指定的标识
+     * @return 对应的数据
+     */
     public Map<Object, Object> entries(RedisKeyEnum keyE, String... params) {
         String key = this.generateKey(keyE, params);
         return redisTemplate.opsForHash().entries(key);
     }
 
-    public boolean hsetAll(RedisKeyEnum keyE, Map<Object, Object> map, String... params) {
-        return this.hsetAll(keyE, map, null, null, params);
+    /**
+     * key为层级多的缓存方法（多个标记组成的key） business:subBusiness:(String... params)
+     * 存redis 调用this.hsetAll方法，先拼接key，有redis枚举业务大类，小类，多个指定标识组成，然后存储，不包含时效时间和时间单位
+     *
+     * @param keyE   redis枚举类
+     * @param map    要缓存的数据（map）
+     * @param params 多个指定的标识
+     * @return 是否成功
+     */
+    public boolean hSetAll(RedisKeyEnum keyE, Map<Object, Object> map, String... params) {
+        return this.hSetAll(keyE, map, null, null, params);
     }
 
     /**
-     * map集合 保存缓存
-     * @param keyE
-     * @param map
-     * @param timeUnit
-     * @param timeout
-     * @param params
-     * @return
+     * key为层级多的缓存方法（多个标记组成的key） business:subBusiness:(String... params)
+     * 存redis 先拼接key，有redis枚举业务大类，小类，多个指定标识组成，然后存储，可设置时效时间和时间单位
+     *
+     * @param keyE     redis枚举类
+     * @param map      要缓存的数据（map）
+     * @param timeout  时效时间
+     * @param timeUnit 时效时间单位
+     * @param params   多个指定的标识
+     * @return 是否成功
      */
-    public boolean hsetAll(RedisKeyEnum keyE, Map<Object, Object> map, TimeUnit timeUnit, Long timeout, String... params) {
+    public boolean hSetAll(RedisKeyEnum keyE, Map<Object, Object> map, Long timeout, TimeUnit timeUnit, String... params) {
         try {
             String key = this.generateKey(keyE, params);
             redisTemplate.opsForHash().putAll(key, map);
@@ -286,17 +346,17 @@ public class RedisService {
     }
 
 
-
-    //   map集合的所有类型所用方法
+    //   ---------------------------------------------------------------map集合的所有类型所用方法-----------------------------------------------
 
     /**
      * hashmap存值并设置有效期
+     * 存redis 根据进行存储，可设置时效时间和时间单位
      *
-     * @param key
-     * @param map
-     * @param timeout
-     * @param timeUnit
-     * @return
+     * @param key      唯一值
+     * @param map      要缓存的数据（map）
+     * @param timeout  时效时间
+     * @param timeUnit 时效时间单位
+     * @return 是否成功
      */
     public boolean set(String key, Map map, Long timeout, TimeUnit timeUnit) {
         try {
@@ -310,9 +370,14 @@ public class RedisService {
     }
 
 
-
-
-
+    /**
+     * hashmap存值并设置有效期
+     * 存redis 根据进行存储，不可设置时效时间和时间单位
+     *
+     * @param key 唯一值
+     * @param map 要缓存的数据（map）
+     * @return 是否成功
+     */
     public boolean set(String key, Map map) {
         try {
             redisTemplate.opsForHash().putAll(key, map);
@@ -325,10 +390,11 @@ public class RedisService {
 
     /**
      * 获取hashmap存值
+     * 根据key获取对应的map集合中指定的键的值
      *
-     * @param key
-     * @param hashKey map中的key
-     * @return
+     * @param key     唯一值
+     * @param hashKey map中的键的值
+     * @return 对应键的数据
      */
     public Object get(String key, String hashKey) {
         try {
@@ -343,15 +409,23 @@ public class RedisService {
     /**
      * 刷新某个key失效时间
      *
-     * @param key
-     * @param timeUnit
-     * @param timeout
+     * @param key      唯一值
+     * @param timeout  时效时间
+     * @param timeUnit 时效时间单位
      */
-    public void expireTime(String key, TimeUnit timeUnit, Long timeout) {
+    public void expireTime(String key, Long timeout, TimeUnit timeUnit) {
         redisTemplate.expire(key, timeout, timeUnit);
     }
 
 
+    /**
+     * 按照 business：subBusiness：s1_s2_s3 格式拼接出一个字符串
+     *
+     * @param business    大类值
+     * @param subBusiness 小类值
+     * @param s           一个或多个指定的值
+     * @return 拼接好的字符串
+     */
     public static String generateKey(String business, String subBusiness, String... s) {
         String result = business + SPLIT_COLON + subBusiness;
         if (null != s) {
@@ -366,67 +440,12 @@ public class RedisService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * 将某个key的值增加1 当当前key不在时,创建并且赋值1，当前key存在时，将当前key对应的值+1并返回
+     * 通过increment(K key, long delta)方法以增量方式存储long值（正值则自增，负值则自减）
      *
-     * @param key
-     * @return
+     * @param key 唯一值
+     * @return 增量的long值
      */
     public Long incr(String key) {
         return redisTemplate.opsForValue().increment(key, 1L);
@@ -466,11 +485,13 @@ public class RedisService {
     }
 
 
-
-
-
-
-
+    /**
+     * 根据枚举类和params数据，组装多个key
+     *
+     * @param keyE   redis枚举类
+     * @param params 一个或多个指定的标识
+     * @return 对应key集合
+     */
     public List<Object> generateMultiKeys(RedisKeyEnum keyE, Object... params) {
         if (null == params) {
             throw new FaInsExcept(ErrorConstans.REFERENCE_CORE_UTIL_CHECK, "params不能为空");

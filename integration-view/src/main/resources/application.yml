@@ -7,7 +7,7 @@ spring:
         new_generator_mappings: false
         format_sql: true
   datasource:
-#    url: jdbc:mysql://localhost:3306/server?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
+    #    url: jdbc:mysql://localhost:3306/server?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
     url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
     username: root
     password: admin
@@ -35,7 +35,22 @@ server:
 
 swagger:
   show: true
+#加密
+#aesDecode:
+#  doDecode: 0
+#  excludeuri: /**/getIndexRedirectUrl,/**/inn/**  对应方法的路径
+#  excludeMethod: handleException,uiConfiguration,swaggerResources    方法名
+#  unDecodeMethod: handWriting,checkSalesPlan,queryOrder,buttonActionLink,sxtbOrder
+#  doSkipDecode: 1
+#  headerSkipVal: tiaoguoba
 
+aesDecode:
+  doDecode: 0
+  excludeuri:
+  excludeMethod:
+  unDecodeMethod:
+  doSkipDecode: 1
+  headerSkipVal: tiaoguoba
 
 
 

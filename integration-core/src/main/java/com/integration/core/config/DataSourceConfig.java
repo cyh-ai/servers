@@ -7,6 +7,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
 
+/**
+ * @author cyh
+ * 数据源配置
+ */
 @Configuration
 @EnableTransactionManagement(order = 2)
 public class DataSourceConfig {

@@ -6,6 +6,8 @@ import com.integration.core.excp.FaInsExcept;
 import com.integration.core.service.RedisLock;
 import com.integration.core.service.RedisService;
 import com.integration.server.dto.InsElementDTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author cyh
  */
+@Api(tags = "redis接口测试控制类")
 @RestController
-@RequestMapping("/cyh")
+@RequestMapping("/redis")
 public class RedisController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -33,27 +36,34 @@ public class RedisController {
     @Autowired
     RedisService redisService;
 
-    @RequestMapping(value = "/redis",method = RequestMethod.POST)
+    @ApiOperation(value = "存redis")
+    @RequestMapping(value = "/redis", method = RequestMethod.POST)
     @ResponseBody
     public void redis() {
         //存redis
         String key = redisService.generateKey(RedisKeyEnum.CYH.getBusiness(), RedisKeyEnum.CYH.getSubBusiness(), "redisCyh");
 
-        redisService.set(key, "程亚辉", 1L, TimeUnit.DAYS);
+        redisService.set(key, 1, 1L, TimeUnit.DAYS);
     }
 
-    @RequestMapping(value = "/redis2",method = RequestMethod.POST)
+    @ApiOperation(value = "获取redis缓存内容")
+    @RequestMapping(value = "/redis2", method = RequestMethod.POST)
     @ResponseBody
     public void redis2() {
         //获取redis缓存内容
         String key = redisService.generateKey(RedisKeyEnum.CYH.getBusiness(), RedisKeyEnum.CYH.getSubBusiness(), "redisCyh");
 
-        String o = (String) redisService.get(key);
+        Integer o = (Integer) redisService.get(key);
         System.out.println(o);
+        System.out.println("----------------------测试key+1---------------------");
+        //测试，以增量方式存储long值
+        Long incr = redisService.incr(key);
+        System.out.println(incr);
     }
 
 
-    @RequestMapping(value = "/redis3",method = RequestMethod.POST)
+    @ApiOperation(value = "控制接口重复调用")
+    @RequestMapping(value = "/redis3", method = RequestMethod.POST)
     @ResponseBody
     public void redis3() throws InterruptedException {
         //控制接口重复调用
@@ -67,17 +77,18 @@ public class RedisController {
                 //模拟接口为调用结束
                 Thread.sleep(10000);
                 System.out.println("123456");
-            }finally {
+            } finally {
                 redisLock.releaseLock();
             }
         } else {
             logger.error("接口重复调用请求,name:{}", name);
             System.out.println("重复调用了");
-            throw new FaInsExcept(ErrorConstans.REPEAT_REQUEST,"正在调用，请勿重复调用");
+            throw new FaInsExcept(ErrorConstans.REPEAT_REQUEST, "正在调用，请勿重复调用");
         }
     }
 
-    @RequestMapping(value = "/redis4",method = RequestMethod.POST)
+    @ApiOperation(value = "测试多key组合存取缓存数据")
+    @RequestMapping(value = "/redis4", method = RequestMethod.POST)
     @ResponseBody
     public void redis4() {
         //测试多key组合存取缓存数据
@@ -86,7 +97,7 @@ public class RedisController {
         insElementDTO.setInsuranceCode("123456789");
         insElementDTO.setInsuranceName("产品中国红");
         insElementDTO.setInsuranceIsOptional("1");
-        redisService.set(RedisKeyEnum.DOUBLE, insElementDTO, insElementDTO.getInsuranceCode(),insElementDTO.getInsuranceName());
+        redisService.set(RedisKeyEnum.DOUBLE, insElementDTO, insElementDTO.getInsuranceCode(), insElementDTO.getInsuranceName());
 
         System.out.println("-----------保存完成---------------");
 
@@ -95,7 +106,8 @@ public class RedisController {
     }
 
 
-    @RequestMapping(value = "/redis5",method = RequestMethod.POST)
+    @ApiOperation(value = "测试map集合的缓存存取")
+    @RequestMapping(value = "/redis5", method = RequestMethod.POST)
     @ResponseBody
     public void redis5() {
         //测试map集合的缓存存取
@@ -106,12 +118,12 @@ public class RedisController {
         insElementDTO.setInsuranceName("产品中国红");
         insElementDTO.setInsuranceIsOptional("1");
         list.add(insElementDTO);
-        map.put("cyh",list);
-        redisService.hsetAll(RedisKeyEnum.MAP, map,RedisKeyEnum.MAP.getTimeUnit(), RedisKeyEnum.MAP.getTime(),"mapCyh","AAA");
+        map.put("cyh", list);
+        redisService.hSetAll(RedisKeyEnum.MAP, map, RedisKeyEnum.MAP.getTime(), RedisKeyEnum.MAP.getTimeUnit(), "mapCyh", "AAA");
 
         System.out.println("-----------保存完成map---------------");
 
-        Map<Object, Object> insElements =  redisService.entries(RedisKeyEnum.MAP, "mapCyh","AAA");
+        Map<Object, Object> insElements = redisService.entries(RedisKeyEnum.MAP, "mapCyh", "AAA");
 
         System.out.println(insElements);
         List<InsElementDTO> cyh = (List<InsElementDTO>) insElements.get("cyh");
@@ -122,11 +134,12 @@ public class RedisController {
         System.out.println("--------------------------------------------分割线----------------------------------------------------");
 
 
-        redisService.hsetAll(RedisKeyEnum.MAP, map);
+        boolean all = redisService.hSetAll(RedisKeyEnum.MAP, map);
+        System.out.println(all);
 
         System.out.println("-----------保存完成map---------------");
 
-        Map<Object, Object> entries =  redisService.entries(RedisKeyEnum.MAP);
+        Map<Object, Object> entries = redisService.entries(RedisKeyEnum.MAP);
         System.out.println(entries);
         List<InsElementDTO> dtoList = (List<InsElementDTO>) entries.get("cyh");
         System.out.println(dtoList);

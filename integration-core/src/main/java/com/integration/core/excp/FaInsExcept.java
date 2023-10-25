@@ -3,9 +3,10 @@ package com.integration.core.excp;
 import com.integration.core.Enum.TsfErrorConstant;
 
 /**
+ * @author cyh
  * 对外统一异常
  */
-public class FaInsExcept extends RuntimeException{
+public class FaInsExcept extends RuntimeException {
 
 
     private String errCode;
@@ -14,7 +15,7 @@ public class FaInsExcept extends RuntimeException{
         super();
     }
 
-    public FaInsExcept(TsfErrorConstant tsfErrorConstant){
+    public FaInsExcept(TsfErrorConstant tsfErrorConstant) {
         super(tsfErrorConstant.getMessage());
         this.errCode = tsfErrorConstant.getCode();
     }
@@ -58,10 +59,6 @@ public class FaInsExcept extends RuntimeException{
     public String getErrCode() {
         return errCode;
     }
-
-
-
-
 
 
 }

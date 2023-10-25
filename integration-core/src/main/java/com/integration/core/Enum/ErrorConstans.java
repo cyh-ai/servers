@@ -1,6 +1,7 @@
 package com.integration.core.Enum;
 
 /**
+ * @author cyh
  * 异常code类
  */
 public class ErrorConstans {
@@ -25,5 +26,11 @@ public class ErrorConstans {
     public final static String  PROTOCOL_ANOMALY = "1001001";
 
     public final static String  REFERENCE_CORE_UTIL_CHECK = "0000301";
+
+    /**
+     * 测试异常
+     */
+    public final static String  TEST_ERROR = "0000302";
+
 
 }
