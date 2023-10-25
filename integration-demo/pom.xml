@@ -10,6 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>integration-demo</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.integration</groupId>
+            <artifactId>intergation-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.integration</groupId>
+            <artifactId>view</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

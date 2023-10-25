@@ -3,6 +3,10 @@ package com.integration.core.util;
 
 import java.util.Iterator;
 
+/**
+ * @author cyh
+ * 非空判断
+ */
 public class IterUtil {
 
     public static boolean isNotEmpty(Iterable<?> iterator) {

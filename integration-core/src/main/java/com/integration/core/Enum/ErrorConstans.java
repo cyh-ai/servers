@@ -14,10 +14,16 @@ public class ErrorConstans {
     public final static String FILE_SEND_UNSUCCESSFUL = "0000006";
 
     public final static String REPLACE_WRONG = "0000007";
+    /**
+     * 重复连接异常
+     */
+    public final static String REPEAT_REQUEST = "0000008";
 
 
     public final static String  PARAM_CHECK_FAIL = "2099902";
 
     public final static String  PROTOCOL_ANOMALY = "1001001";
+
+    public final static String  REFERENCE_CORE_UTIL_CHECK = "0000301";
 
 }

@@ -7,9 +7,29 @@ spring:
         new_generator_mappings: false
         format_sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/server?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
+#    url: jdbc:mysql://localhost:3306/server?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
     username: root
     password: admin
+  redis:
+    #ip地址
+    host: 127.0.0.1
+    #端口号
+    port: 6379
+    #密码
+    password: 123456
+    #超时时间
+    timeout: 130000
+    lettuce:
+      pool:
+        #最大阻塞等待时间，负数表示没有限制
+        max-wait: -1
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中最大连接数，负数表示没有限制
+        max-active: 20
 server:
   port: 8082
 
