@@ -1,6 +1,7 @@
 package com.integration.server.Helper;
 
 /**
+ * @author cyh
  * 个性化处理,写一些公共处理方法
  */
 public interface CyhIndInterface {

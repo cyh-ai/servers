@@ -6,6 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
+/**
+ * @author cyh
+ * 待补充类说明
+ */
 @ApiModel(description = "险种响应DTO对象")
 public class KindListResponseDTO {
 

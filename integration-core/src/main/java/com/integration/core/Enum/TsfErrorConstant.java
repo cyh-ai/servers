@@ -1,5 +1,10 @@
 package com.integration.core.Enum;
 
+
+/**
+ * @author cyh
+ * 待补充类说明
+ */
 public enum  TsfErrorConstant {
 
     SUCCESS("0000000","成功"),

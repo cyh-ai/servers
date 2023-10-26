@@ -3,6 +3,10 @@ package com.integration.view.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * @author cyh
+ * 待补充类说明
+ */
 @ApiModel(description = "险种请求对象")
 public class KindListRequest {
 

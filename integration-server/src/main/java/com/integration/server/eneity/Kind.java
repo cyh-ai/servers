@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 
+
 /**
- * 险种信息
+ * @author cyh
+ * 待补充类说明
  */
 @Entity
 @Table(name = "T_insurance_kind")

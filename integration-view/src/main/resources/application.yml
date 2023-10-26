@@ -46,11 +46,8 @@ swagger:
 
 aesDecode:
   doDecode: 0
-  excludeuri:
-  excludeMethod:
-  unDecodeMethod:
-  doSkipDecode: 1
-  headerSkipVal: tiaoguoba
+  excludeuri: /**/**
+  excludeMethod: handleException,uiConfiguration,swaggerResources,securityConfiguration,getDocumentation
 
 
 

@@ -4,6 +4,10 @@ import com.integration.core.util.JsonUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * @author cyh
+ * 待补充类说明
+ */
 //5.DTO添加swagger注解ApiModel(模块名称)
 @ApiModel(value = "险种DTO")
 public class InsElementDTO {

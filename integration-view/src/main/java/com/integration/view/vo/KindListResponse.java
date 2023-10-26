@@ -5,6 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
+/**
+ * @author cyh
+ * 待补充类说明
+ */
 @ApiModel(description = "险种列表响应体")
 public class KindListResponse {
 

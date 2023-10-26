@@ -25,25 +25,29 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author cyh
+ * 待补充类说明
+ */
 @ControllerAdvice
 @SuppressWarnings("rawtypes")
 public class FastInsureExceptionHandler implements ResponseBodyAdvice {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String RETURN_TPYE = "com.cpic.fastInsure.core.spec.StdResponse";//add+ 20220823
     private static final String DO_NOT_DECODE = "0";
+
+
+    /**
+     * 控制是否走加密
+     */
     @Value("${aesDecode.doDecode}")
     private String doDecode;
 
+    /**
+     * 需要走格式化响应参数的方法(在yml文件中配置对应的方法名即可)
+     */
     @Value("${aesDecode.excludeMethod}")
     private String[] excludeMethod;
-
-    @Value("${aesDecode.unDecodeMethod}")
-    private String[] unDecodeMethod;
-
-    @Value("${aesDecode.headerSkipVal}")
-    private String headerSkipVal;
-    @Value("${aesDecode.doSkipDecode}")
-    private String doSkipDecode;
 
 
     @ExceptionHandler({Exception.class})
@@ -112,9 +116,9 @@ public class FastInsureExceptionHandler implements ResponseBodyAdvice {
         logger.info("start return response with {}", formatString);
         String skipVal = req.getHeaders().getFirst("platformVal");
 
-        boolean notDecode = DO_NOT_DECODE.equals(doDecode) || ArrayUtils.contains(unDecodeMethod, m.getMethod().getName()) || ("1".equals(doSkipDecode) && headerSkipVal.equals(skipVal));
-        //response.put("responseBody", notDecode ? arg0 == null ? arg0 : JsonUtil.toObject(formatString, arg0.getClass()) : AESUtil.aesCbcPKCS5PaddingEncrypt(formatString, false));
-        response.put("responseBody", notDecode ? arg0 == null ? arg0 : JsonUtil.toObject(formatString, arg0.getClass()) : JsonUtil.toObject(formatString, arg0.getClass()));
+        boolean notDecode = DO_NOT_DECODE.equals(doDecode);
+        //加密：AESUtil.aesCbcPKCS5PaddingEncrypt(formatString, false);后期补充相关对接加密接口调用
+        response.put("responseBody", notDecode ? arg0 == null ? arg0 : JsonUtil.toObject(formatString, arg0.getClass()) : "加密");
         return response;
     }
 

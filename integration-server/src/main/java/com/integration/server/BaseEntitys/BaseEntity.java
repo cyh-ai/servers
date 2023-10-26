@@ -8,6 +8,11 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 
+
+/**
+ * @author cyh
+ * 待补充类说明
+ */
 @MappedSuperclass
 public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 8548784565879765191L;

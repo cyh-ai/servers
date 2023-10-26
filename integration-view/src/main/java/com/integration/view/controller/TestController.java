@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+
 /**
  * @author cyh
- * 测试ctr
+ * 待补充类说明
  */
 @Api(tags = "测试控制类")
 @RestController
@@ -27,9 +28,9 @@ public class TestController {
 
 
     @ApiOperation(value = "测试异常类")
-    @RequestMapping(value = "/error", method = RequestMethod.POST)
+    @RequestMapping(value = "/errorCyh", method = RequestMethod.POST)
     @ResponseBody
-    public String redis(@RequestBody String cyh) {
+    public Object redis(@RequestBody String cyh) {
         String name = "程亚辉";
         List<String> list = new ArrayList<>();
         list.add("张飞");
@@ -40,10 +41,10 @@ public class TestController {
         list.add(cyh);
         if (list.contains(name)){
             System.out.println("业务逻辑开始");
-
+            System.out.println(list);
+            return list;
         }else {
             throw new FaInsExcept(ErrorConstans.TEST_ERROR,"测试异常打印");
         }
-        return "程亚辉成功调用";
     }
 }
