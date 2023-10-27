@@ -3,6 +3,7 @@ package com.integration.view.itcpt;
 
 import com.integration.core.excp.FaInsExcept;
 import com.integration.core.excp.TokenExcept;
+import com.integration.core.util.AesUtil;
 import com.integration.core.util.JsonUtil;
 import com.integration.core.util.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -117,8 +118,8 @@ public class FastInsureExceptionHandler implements ResponseBodyAdvice {
         String skipVal = req.getHeaders().getFirst("platformVal");
 
         boolean notDecode = DO_NOT_DECODE.equals(doDecode);
-        //加密：AESUtil.aesCbcPKCS5PaddingEncrypt(formatString, false);后期补充相关对接加密接口调用
-        response.put("responseBody", notDecode ? arg0 == null ? arg0 : JsonUtil.toObject(formatString, arg0.getClass()) : "加密");
+        //notDecode为false(yml文件中doDecode配置为1) 走加密，需用对应方法解密
+        response.put("responseBody", notDecode ? arg0 == null ? arg0 : JsonUtil.toObject(formatString, arg0.getClass()) : AesUtil.aesCbcPKCS5PaddingEncrypt(formatString, false));
         return response;
     }
 
