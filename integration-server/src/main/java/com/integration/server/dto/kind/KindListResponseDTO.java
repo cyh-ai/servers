@@ -1,6 +1,7 @@
-package com.integration.server.dto;
+package com.integration.server.dto.kind;
 
 
+import com.integration.core.util.JsonUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 /**
  * @author cyh
- * 待补充类说明
+ * 险种响应DTO对象
  */
 @ApiModel(description = "险种响应DTO对象")
 public class KindListResponseDTO {
@@ -33,5 +34,10 @@ public class KindListResponseDTO {
 
     public void setInsuranceDTOList(List<InsElementDTO> insuranceDTOList) {
         this.insuranceDTOList = insuranceDTOList;
+    }
+
+    @Override
+    public String toString() {
+        return JsonUtil.toJson(this);
     }
 }

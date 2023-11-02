@@ -16,7 +16,6 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,16 +24,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author cyh
- * 待补充类说明
+ * 处理参数响应格式和响应结果
  */
 @ControllerAdvice
 @SuppressWarnings("rawtypes")
 public class FastInsureExceptionHandler implements ResponseBodyAdvice {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final String RETURN_TPYE = "com.cpic.fastInsure.core.spec.StdResponse";//add+ 20220823
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    /**
+     * 一个封装返回类，包含状态码，状态信息，具体数据。
+     */
+    private static final String RETURN_TPYE = "com.cpic.fastInsure.core.spec.StdResponse";
+    /**
+     * 控制是否加密
+     */
     private static final String DO_NOT_DECODE = "0";
 
 
@@ -49,6 +55,12 @@ public class FastInsureExceptionHandler implements ResponseBodyAdvice {
      */
     @Value("${aesDecode.excludeMethod}")
     private String[] excludeMethod;
+
+    /**
+     * 不加密方法(在yml文件中配置对应的方法名即可)
+     */
+    @Value("${aesDecode.unDecodeMethod}")
+    private String[] unDecodeMethod;
 
 
     @ExceptionHandler({Exception.class})
@@ -67,13 +79,7 @@ public class FastInsureExceptionHandler implements ResponseBodyAdvice {
         } else if (e instanceof BindException) {
             response.put("errCode", "0");
             BindException ex = (BindException) e;
-            //logger.error(JsonUtil.toJson(((BindException) e).getBindingResult()));
-            errMsg = ex.getBindingResult().getFieldError().getDefaultMessage();
-        } else if (e instanceof MethodArgumentNotValidException) {
-            response.put("errCode", "0");
-            MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
-            //logger.error(JsonUtil.toJson(((MethodArgumentNotValidException) e).getBindingResult()));
-            errMsg = ex.getBindingResult().getFieldError().getDefaultMessage();
+            errMsg = Objects.requireNonNull(ex.getBindingResult().getFieldError()).getDefaultMessage();
         } else if (e instanceof ResourceAccessException) {
             response.put("errCode", "0");
             logger.error("FastInsureExceptHandler got uncaught ResourceAccessException: ", e);
@@ -81,54 +87,42 @@ public class FastInsureExceptionHandler implements ResponseBodyAdvice {
         } else {
             response.put("errCode", "0");
             logger.error("FastInsureExceptHandler got uncaught exception ", e);
-            //errMsg = "系统异常" + getSimpleExpMsg(e) + ":" + MDC.get("RequestNo");
-            errMsg = "请上报运维工单处理";
+            //errMsg = "系统异常" + getSimpleExpMsg(e) + ":" + MDC.get("RequestNo"); ...
+            errMsg = "代码报错！！！查看异常打印";
         }
         logger.error("start return error with {}", errMsg);
         response.put("errMsg", errMsg);
         return response;
     }
 
-    private String getSimpleExpMsg(Exception e) {
-        try {
-            String msg = e.toString();
-            if (msg.indexOf(":") > -1)
-                msg = msg.substring(0, msg.indexOf(":"));
-
-            int i = msg.lastIndexOf(".");
-            if (i > -1 && i < msg.length())
-                msg = msg.substring(msg.lastIndexOf("."));
-            return msg;
-        } catch (Exception ex) {
-            return ex.getLocalizedMessage();
-        }
-    }
 
     @Override
-    public Object beforeBodyWrite(Object arg0, MethodParameter m, MediaType arg2, Class arg3, ServerHttpRequest req, ServerHttpResponse resp) {
-        if (m == null || (m != null && m.getMethod() != null && StringUtils.equals(m.getMethod().getReturnType().getName(), RETURN_TPYE))) {
+    public Object beforeBodyWrite(Object body, MethodParameter parameter, MediaType mediaType, Class clazz, ServerHttpRequest req, ServerHttpResponse resp) {
+        //parameter.getMethod().getReturnType().getName()  获取指定路径下封装的返回类
+        if (parameter.getMethod() != null && StringUtils.equals(parameter.getMethod().getReturnType().getName(), RETURN_TPYE)) {
             logger.info("统一处理");
-            return arg0;
+            return body;
         }
 
         Map<String, Object> response = new HashMap<>();
         response.put("errCode", "1");
-        String formatString = JsonUtil.toJsonContainEmpty(arg0);
+        String formatString = JsonUtil.toJsonContainEmpty(body);
         logger.info("start return response with {}", formatString);
-        String skipVal = req.getHeaders().getFirst("platformVal");
+        //String skipVal = req.getHeaders().getFirst("platformVal"); ...
 
-        boolean notDecode = DO_NOT_DECODE.equals(doDecode);
+        boolean notDecode = DO_NOT_DECODE.equals(doDecode) || ArrayUtils.contains(unDecodeMethod, parameter.getMethod().getName());
         //notDecode为false(yml文件中doDecode配置为1) 走加密，需用对应方法解密
-        response.put("responseBody", notDecode ? arg0 == null ? arg0 : JsonUtil.toObject(formatString, arg0.getClass()) : AesUtil.aesCbcPKCS5PaddingEncrypt(formatString, false));
+        //unDecodeMethod为不加密的方法名，存在则不走加密
+        response.put("responseBody", notDecode ? body == null ? null : JsonUtil.toObject(formatString, body.getClass()) : AesUtil.aesCbcPKCS5PaddingEncrypt(formatString, false));
         return response;
     }
 
     @Override
-    public boolean supports(MethodParameter arg0, Class arg1) {
-        if (null != arg0 && null != arg0.getMethod()) {
-            logger.info("beforeBodyWrite supports: {}", arg0.getMethod().getName());
+    public boolean supports(MethodParameter parameter, Class clazz) {
+        if (null != parameter.getMethod()) {
+            logger.info("beforeBodyWrite supports: {}", parameter.getMethod().getName());
         }
-        return null == arg0 || null == arg0.getMethod() || !ArrayUtils.contains(excludeMethod, arg0.getMethod().getName());
+        return null == parameter.getMethod() || !ArrayUtils.contains(excludeMethod, parameter.getMethod().getName());
     }
 
 

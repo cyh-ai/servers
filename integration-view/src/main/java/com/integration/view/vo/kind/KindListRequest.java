@@ -1,11 +1,12 @@
-package com.integration.view.vo;
+package com.integration.view.vo.kind;
 
+import com.integration.core.util.JsonUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author cyh
- * 待补充类说明
+ * 险种请求对象
  */
 @ApiModel(description = "险种请求对象")
 public class KindListRequest {
@@ -45,6 +46,6 @@ public class KindListRequest {
 
     @Override
     public String toString() {
-        return "";
+        return JsonUtil.toJson(this);
     }
 }

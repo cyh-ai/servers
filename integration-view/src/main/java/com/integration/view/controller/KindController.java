@@ -6,13 +6,13 @@ import com.integration.core.util.CollectionUtils;
 
 import com.integration.core.util.ParamCheck;
 import com.integration.server.design.Factory2;
-import com.integration.server.dto.InsElementDTO;
-import com.integration.server.dto.KindListResponseDTO;
+import com.integration.server.dto.kind.InsElementDTO;
+import com.integration.server.dto.kind.KindListResponseDTO;
 import com.integration.server.service.AdminService;
 import com.integration.server.Helper.CyhHelper;
-import com.integration.view.vo.InsElement;
-import com.integration.view.vo.KindListRequest;
-import com.integration.view.vo.KindListResponse;
+import com.integration.view.vo.kind.InsElement;
+import com.integration.view.vo.kind.KindListRequest;
+import com.integration.view.vo.kind.KindListResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 /**
  * @author cyh
  * @date 2023.02.27
- * 测试对接vue
+ * 产品控制层
  */
 //3.swagger在控制层添加Api注解
 @Api(tags = "产品控制类")

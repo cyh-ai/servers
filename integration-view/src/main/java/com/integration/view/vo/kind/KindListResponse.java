@@ -1,4 +1,4 @@
-package com.integration.view.vo;
+package com.integration.view.vo.kind;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author cyh
- * 待补充类说明
+ * 险种列表响应体
  */
 @ApiModel(description = "险种列表响应体")
 public class KindListResponse {

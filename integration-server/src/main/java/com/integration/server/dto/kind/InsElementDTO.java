@@ -1,18 +1,22 @@
-package com.integration.view.vo;
+package com.integration.server.dto.kind;
 
+import com.integration.core.util.JsonUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author cyh
- * 待补充类说明
+ * 险种DTO
  */
-@ApiModel(description = "险种对象")
-public class InsElement {
+//5.DTO添加swagger注解ApiModel(模块名称)
+@ApiModel(value = "险种DTO")
+public class InsElementDTO {
+
 
     /**
      * 险种名称
      */
+    //6.字段添加swagger注解ApiModelProperty(模块中字段名称)
     @ApiModelProperty(value = "险种名称")
     private String insuranceName;
 
@@ -50,5 +54,10 @@ public class InsElement {
 
     public void setInsuranceIsOptional(String insuranceIsOptional) {
         this.insuranceIsOptional = insuranceIsOptional;
+    }
+
+    @Override
+    public String toString() {
+        return JsonUtil.toJson(this);
     }
 }

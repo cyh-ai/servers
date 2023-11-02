@@ -2,7 +2,7 @@ package com.integration.server.repoService.impl;
 
 import com.integration.core.util.CopyUtil;
 
-import com.integration.server.dto.KindDTO;
+import com.integration.server.dto.kind.KindDTO;
 import com.integration.server.eneity.Kind;
 import com.integration.server.repoService.KindRepoService;
 import com.integration.server.repository.KindRepository;
@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author cyh
+ * 险种repo层实现类
+ */
 @Service
 public class KindRepoServiceImpl implements KindRepoService {
 
@@ -22,17 +26,17 @@ public class KindRepoServiceImpl implements KindRepoService {
 
     @Override
     public KindDTO findByCodeAndState(String code, Boolean state) {
-        return CopyUtil.convert(kindRepository.findByCodeAndState(code,state),this::toDTO);
+        return CopyUtil.convert(kindRepository.findByCodeAndState(code, state), this::toDTO);
     }
 
     @Override
     public List<KindDTO> findByState(Boolean state) {
-        return CopyUtil.convertList(kindRepository.findByState(state),this::toDTO);
+        return CopyUtil.convertList(kindRepository.findByState(state), this::toDTO);
     }
 
     @Override
     public Page<KindDTO> findByState(Boolean state, Pageable pageable) {
-        return kindRepository.findByState(state,pageable).map(this::toDTO);
+        return kindRepository.findByState(state, pageable).map(this::toDTO);
     }
 
     @Override
@@ -46,7 +50,7 @@ public class KindRepoServiceImpl implements KindRepoService {
     }
 
 
-    private KindDTO toDTO(Kind kind){
-        return  CopyUtil.convert(kind,KindDTO.class);
+    private KindDTO toDTO(Kind kind) {
+        return CopyUtil.convert(kind, KindDTO.class);
     }
 }

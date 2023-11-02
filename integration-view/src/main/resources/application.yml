@@ -38,8 +38,11 @@ swagger:
 #加密
 #aesDecode:
 #  doDecode: 0
-#  excludeuri: /**/getIndexRedirectUrl,/**/inn/**  对应方法的路径
-#  excludeMethod: handleException,uiConfiguration,swaggerResources    方法名
+   #不做请求加密的uri 英文,分割
+#  excludeuri: /**/getIndexRedirectUrl,/**/inn/**
+   #不进行封装的method
+#  excludeMethod: handleException,uiConfiguration,swaggerResources
+   #不做返回加密的method
 #  unDecodeMethod: handWriting,checkSalesPlan,queryOrder,buttonActionLink,sxtbOrder
 #  doSkipDecode: 1
 #  headerSkipVal: tiaoguoba
@@ -48,6 +51,7 @@ aesDecode:
   doDecode: 1
   excludeuri: /**/**
   excludeMethod: handleException,uiConfiguration,swaggerResources,securityConfiguration,getDocumentation
+  unDecodeMethod: findInsuredForce,exportForbidRules
 
 
 

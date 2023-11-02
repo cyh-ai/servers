@@ -5,9 +5,9 @@ import com.google.common.collect.Lists;
 import com.integration.core.util.CollectionUtils;
 
 
-import com.integration.server.dto.InsElementDTO;
-import com.integration.server.dto.KindDTO;
-import com.integration.server.dto.KindListResponseDTO;
+import com.integration.server.dto.kind.InsElementDTO;
+import com.integration.server.dto.kind.KindDTO;
+import com.integration.server.dto.kind.KindListResponseDTO;
 import com.integration.server.repoService.KindRepoService;
 import com.integration.server.service.KindService;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,8 @@ import java.util.stream.Collectors;
 
 
 /**
- * 缓存和判断
+ * @author cyh
+ * 险种方法层实现
  */
 @Service
 public class KindServiceImpl implements KindService {

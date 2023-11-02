@@ -5,7 +5,7 @@ import com.integration.core.Enum.RedisKeyEnum;
 import com.integration.core.excp.FaInsExcept;
 import com.integration.core.service.RedisLock;
 import com.integration.core.service.RedisService;
-import com.integration.server.dto.InsElementDTO;
+import com.integration.server.dto.kind.InsElementDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author cyh
- * 待补充类说明
+ * 测试redis缓存
  */
 @Api(tags = "redis接口测试控制类")
 @RestController

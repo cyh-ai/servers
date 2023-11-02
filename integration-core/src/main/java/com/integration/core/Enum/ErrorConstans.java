@@ -21,16 +21,30 @@ public class ErrorConstans {
     public final static String REPEAT_REQUEST = "0000008";
 
 
-    public final static String  PARAM_CHECK_FAIL = "2099902";
+    /**
+     * 参数校验
+     */
+    public final static String PARAM_CHECK_FAIL = "2099902";
 
-    public final static String  PROTOCOL_ANOMALY = "1001001";
+    /**
+     * HTTP或HTTPS协议异常CODE
+     */
+    public final static String PROTOCOL_ANOMALY = "1001001";
 
-    public final static String  REFERENCE_CORE_UTIL_CHECK = "0000301";
+    /**
+     * 参数校验
+     */
+    public final static String REFERENCE_CORE_UTIL_CHECK = "0000301";
 
     /**
      * 测试异常
      */
-    public final static String  TEST_ERROR = "0000302";
+    public final static String TEST_ERROR = "0000302";
+
+    /**
+     * admin通用报错
+     */
+    public final static String ADMIN_COMMON_EXCP = "2099904";
 
 
 }

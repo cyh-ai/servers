@@ -1,4 +1,4 @@
-package com.integration.server.dto;
+package com.integration.server.dto.kind;
 
 import com.integration.core.util.JsonUtil;
 import io.swagger.annotations.ApiModel;

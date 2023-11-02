@@ -93,9 +93,9 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
         </dependency>
 
         <dependency>
@@ -257,6 +257,7 @@
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
+
             <dependency>
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
@@ -268,6 +269,8 @@
                 <artifactId>integration-demo</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
