@@ -1,12 +1,12 @@
 package com.integration.core.util;
 
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -26,6 +26,13 @@ public class TimeUtils {
         return DateFormatUtils.format(millis, pattern, locale);
     }
 
+    /**
+     * 时间转换：date类型转换为String类型
+     *
+     * @param date    指定时间
+     * @param pattern 指定格式 如：yyyy-MM-dd
+     * @return String类型格式时间
+     */
     public static String format(Date date, String pattern) {
         return DateFormatUtils.format(date, pattern);
     }
@@ -34,6 +41,13 @@ public class TimeUtils {
         return DateFormatUtils.format(date, pattern, locale);
     }
 
+    /**
+     * 时间转换：calendar类型转换为String类型
+     *
+     * @param calendar 指定时间
+     * @param pattern  指定格式 如：yyyy-MM-dd
+     * @return String类型格式时间
+     */
     public static String format(Calendar calendar, String pattern) {
         return DateFormatUtils.format(calendar, pattern);
     }
@@ -46,6 +60,14 @@ public class TimeUtils {
         return DateUtils.parseDate(string, pattern);
     }
 
+    /**
+     * 时间转换：字符串类型转换为date类型
+     *
+     * @param date    字符串格式时间
+     * @param pattern 指定格式 如：yyyy-MM-dd
+     * @return date类型格式时间
+     * @throws ParseException
+     */
     public static Date parseDate(String date, String pattern) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         return sdf.parse(date);
@@ -294,6 +316,13 @@ public class TimeUtils {
         return getSpanInMonths(toCalendar(date1), toCalendar(date2));
     }
 
+    /**
+     * 求两个时间的年份差：通常用于判断年龄大小
+     *
+     * @param date1 指定年龄
+     * @param date2 指定年龄
+     * @return 年龄差值
+     */
     public static Long getSpanInDays(Date date1, Date date2) {
         return getSpanInDays(toCalendar(date1), toCalendar(date2));
     }
@@ -315,12 +344,12 @@ public class TimeUtils {
     }
 
     public static Long getSpanInYears(Calendar calendar1, Calendar calendar2) {
-        Long y = (long)(calendar2.get(1) - calendar1.get(1));
+        Long y = (long) (calendar2.get(1) - calendar1.get(1));
         return calendar2.get(2) <= calendar1.get(2) && (calendar2.get(2) != calendar1.get(2) || calendar2.get(5) < calendar1.get(5)) ? y - 1L : y;
     }
 
     public static Long getSpanInMonths(Calendar calendar1, Calendar calendar2) {
-        Long m = (long)((calendar2.get(1) - calendar1.get(1)) * 12 + (calendar2.get(2) - calendar1.get(2)));
+        Long m = (long) ((calendar2.get(1) - calendar1.get(1)) * 12 + (calendar2.get(2) - calendar1.get(2)));
         return calendar2.get(5) >= calendar1.get(5) ? m : m - 1L;
     }
 

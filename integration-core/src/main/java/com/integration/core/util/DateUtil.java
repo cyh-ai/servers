@@ -156,24 +156,6 @@ public class DateUtil {
         return calendar.getTime();
     }
 
-    /**
-     * @param aiCertDateStr
-     * @description: 将ai返回的证件有效期字符串yyyyMMdd格式化yyyy/MM/dd
-     * @author ChenYFan
-     * @date: 2021/8/26 18:01
-     */
-//    public static String formatAiCertDate(String aiCertDateStr) {
-//        try {
-//
-//            //把字符串转成对应时间
-//            Date aiCertDate = DateUtil.parse(aiCertDateStr);
-//            //
-//            return TimeUtils.format(aiCertDate, FORMATTER_AI_CERT_DATE_NO_PATTERN);
-//        } catch (Exception e) {
-//            return aiCertDateStr;
-//        }
-//    }
-
 
     /**
      * 是否为成年人 true为成年 false非成年
@@ -236,8 +218,14 @@ public class DateUtil {
         return calendar.get(Calendar.DATE);
     }
 
+    /**
+     * 时间转换：字符串类型时间转换为date类型时间
+     *
+     * @param date 字符串格式时间
+     * @return date类型格式时间
+     */
     public static Date format(String date) {
-        Date result = null;
+        Date result;
         try {
             result = TimeUtils.parseDate(date, FORMATTER_AI_CERT_DATE_NO_PATTERN);
         } catch (ParseException e) {
@@ -246,11 +234,20 @@ public class DateUtil {
         return result;
     }
 
-    public static Date getPolicyEndDate(Date validDate) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(validDate);
-        cal.add(Calendar.YEAR, 1); //增加一年
-        cal.add(Calendar.DATE, -1); //减1天
-        return cal.getTime();
+    /**
+     * 时间转换：字符串类型时间转换为date类型时间
+     *
+     * @param date 字符串格式时间
+     * @param type 指定类型 如：yyyy-MM-dd
+     * @return date类型格式时间
+     */
+    public static Date format(String date, String type) {
+        Date result;
+        try {
+            result = TimeUtils.parseDate(date, type);
+        } catch (ParseException e) {
+            return null;
+        }
+        return result;
     }
 }
