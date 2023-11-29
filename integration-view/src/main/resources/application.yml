@@ -35,7 +35,36 @@ server:
 
 swagger:
   show: true
-#加密
+
+logging:
+  file:
+    #日志存放路径
+    path: D:/logs/springboot
+  #读取logback日志文件配置，logback-spring
+  config: classpath:logback-spring.xml
+  #日志级别
+  level:
+    root: info
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  #加密
 #aesDecode:
 #  doDecode: 0
    #不做请求加密的uri 英文,分割
@@ -51,7 +80,17 @@ aesDecode:
   doDecode: 1
   excludeuri: /**/**
   excludeMethod: handleException,uiConfiguration,swaggerResources,securityConfiguration,getDocumentation
-  unDecodeMethod: findInsuredForce,exportForbidRules
+  unDecodeMethod: findInsuredForce,exportForbidRules,property
+
+
+
+#配置表环境切换
+property:
+  environment: sit
+#初始化RestTemplate超时配置化
+customRestTemplate:
+  readTimeout: 6
+  connectTimeout: 3
 
 
 
