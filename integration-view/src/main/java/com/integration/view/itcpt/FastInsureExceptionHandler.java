@@ -5,6 +5,7 @@ import com.integration.core.excp.FaInsExcept;
 import com.integration.core.excp.TokenExcept;
 import com.integration.core.util.AesUtil;
 import com.integration.core.util.JsonUtil;
+import com.integration.core.util.LogUtis;
 import com.integration.core.util.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -107,7 +108,7 @@ public class FastInsureExceptionHandler implements ResponseBodyAdvice {
         Map<String, Object> response = new HashMap<>();
         response.put("errCode", "1");
         String formatString = JsonUtil.toJsonContainEmpty(body);
-        logger.info("start return response with {}", formatString);
+        logger.info("start return response with {}", LogUtis.toLogStr(req,formatString));
         //String skipVal = req.getHeaders().getFirst("platformVal"); ...
 
         boolean notDecode = DO_NOT_DECODE.equals(doDecode) || ArrayUtils.contains(unDecodeMethod, parameter.getMethod().getName());
