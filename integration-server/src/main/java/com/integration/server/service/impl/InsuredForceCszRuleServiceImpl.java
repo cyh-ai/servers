@@ -52,6 +52,7 @@ public class InsuredForceCszRuleServiceImpl implements InsuredForceCszRuleServic
             List<InsuredForceCszRuleExportTemplate> templateInfoList = new ArrayList<>();
             allByOrderByModifyTime.forEach(result -> {
                 InsuredForceCszRuleExportTemplate template = new InsuredForceCszRuleExportTemplate();
+                // BeanUtils.copyProperties(有数据的,被填充的)
                 BeanUtils.copyProperties(result, template);
                 template.setIsCheckAnti("1".equals(template.getIsCheckAnti()) ? "是" : "否");
                 templateInfoList.add(template);
