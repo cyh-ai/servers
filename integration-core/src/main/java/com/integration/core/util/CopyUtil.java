@@ -57,4 +57,14 @@ public class CopyUtil {
         return list.stream().map(mapper).collect(Collectors.toList());
     }
 
+
+    public static <T,R> Iterable<R> convertList(Iterable<T> iterable,Function<T,R> converter){
+        if (iterable == null || converter == null) {
+            return new ArrayList<>();
+        }
+        ArrayList<R> list = new ArrayList<>();
+        iterable.forEach(it->list.add(converter.apply(it)));
+        return list;
+    }
+
 }

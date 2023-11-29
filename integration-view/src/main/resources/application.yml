@@ -80,7 +80,7 @@ aesDecode:
   doDecode: 1
   excludeuri: /**/**
   excludeMethod: handleException,uiConfiguration,swaggerResources,securityConfiguration,getDocumentation
-  unDecodeMethod: findInsuredForce,exportForbidRules,property
+  unDecodeMethod: findInsuredForce,exportForbidRules,property,clearRedisCacheCategory
 
 
 

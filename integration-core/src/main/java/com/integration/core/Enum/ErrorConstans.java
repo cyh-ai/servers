@@ -35,6 +35,10 @@ public class ErrorConstans {
      * 参数校验
      */
     public final static String REFERENCE_CORE_UTIL_CHECK = "0000301";
+    /**
+     * 入参校验不通过
+     */
+    public final static String REFERENCE_PARAMS_CHECK = "0000303";
 
     /**
      * 测试异常
